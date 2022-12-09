@@ -1,4 +1,4 @@
-import {FixtureData} from "./generator.js";
+import {FixtureData} from "./generator";
 import fg from "fast-glob";
 import fs from "fs-extra";
 import * as path from "path";

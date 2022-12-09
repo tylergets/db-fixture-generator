@@ -1,5 +1,5 @@
 import test from 'ava'
-import {FixtureGenerator} from "../src/index.js";
+import {FixtureGenerator} from "../src";
 
 test.serial('Test a deep graph', async t => {
 
