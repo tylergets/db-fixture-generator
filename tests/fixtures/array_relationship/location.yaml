@@ -1,0 +1,10 @@
+entities:
+  location:
+    id: '{{id}}'
+    name: 'Location'
+    children:
+      - '@child1'
+      - '@child2'
+  child:
+    __repeat: 10
+    id: '{{id}}'

@@ -46,13 +46,19 @@ export default class Entity {
 
     getDependencies() {
         return Object.entries(this.fields)
-        .filter(([key, value]) => {
+        .flatMap(([key, value]) => {
+            if (Array.isArray(value)) {
+                return value;
+            }
+            return value;
+        })
+        .filter((value) => {
             if (typeof value === 'string') {
                 return value.startsWith("@");
             }
             return false;
         })
-        .map(([key, value]) => {
+        .map((value) => {
             return value.substring(1);
         })
     }

@@ -20,10 +20,13 @@ This project is not yet stable, do not use it in production.
 Create a file such as seed.ts
 
 ```ts
+import FixtureGenerator from "db-fixture-generator";
+
 (async () => {
+
     const options = {};
     const fixtures = await FixtureGenerator.fromFiles('./fixtures/**.yaml', options);
-    
+
     await fixtures.create(async (entityType, data) => {
         // persist data here
     });

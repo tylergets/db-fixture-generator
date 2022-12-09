@@ -59,7 +59,8 @@ export default class FixtureGenerator {
         }
 
         for (const [key, entity] of entities) {
-            for (const dep of await entity.getDependencies()) {
+            let dependencies = entity.getDependencies();
+            for (const dep of await dependencies) {
                 this.graph.addDependency(key, dep);
             }
         }
@@ -67,6 +68,7 @@ export default class FixtureGenerator {
         for (let i = 0; i < this.graph.overallOrder().length; i++){
             const name = this.graph.overallOrder()[i];
             const entity = this.graph.getNodeData(name);
+
             entity.variables.i = i + 1;
             cb(name, entity.toJSON());
         }
