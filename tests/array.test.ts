@@ -1,5 +1,5 @@
 import test from 'ava'
-import FixtureGenerator from "../src";
+import {FixtureGenerator} from "../src";
 
 test.serial('Entities can have array values', async t => {
 

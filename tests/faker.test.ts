@@ -1,5 +1,5 @@
 import test from 'ava'
-import FixtureGenerator from "../src";
+import {FixtureGenerator} from "../src";
 import {faker} from "@faker-js/faker";
 
 test('Generates faker data', async t => {
