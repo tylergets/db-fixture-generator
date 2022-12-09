@@ -1,6 +1,14 @@
 # db-fixture-generator
 
-A database and framework agnostic fixture generator for NodeJS
+A database and framework-agnostic fixture generator for NodeJS
+
+This project is not yet stable, do not use it in production.
+
+## TODO
+ * Solve Dependency Graph
+ * Load Relationships
+ * Handle Arrays
+ * Settle internal api
 
 ## Features
 
@@ -28,3 +36,6 @@ Run it
 ```shell
 ts-node seed.ts
 ```
+
+### Examples - TypeORM
+### Examples - Prisma
