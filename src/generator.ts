@@ -25,7 +25,6 @@ export default class FixtureGenerator {
 
     async create(cb: (entityType: string, entityData: Record<string, any>) => void): Promise<void> {
 
-
         let entities = [];
 
         for (let i = 0; i < this.fixtures.length; i++){
