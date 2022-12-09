@@ -40,4 +40,53 @@ ts-node seed.ts
 ```
 
 ### Examples - TypeORM
+```ts
+import FixtureGenerator from "db-fixture-generator";
+
+(async () => {
+
+    await dataSource.initialize();
+    
+    const fixtures = await FixtureGenerator.fromFiles('./fixtures/**.yaml', {
+        formatRelationship: (entityType, entityData) => {
+            return {
+                id: entityData.id
+            }
+        }
+    });
+
+    await fixtures.create(async (entityType, entityKey, data) => {
+        const repository = dataSource.getRepository(entityType);
+        const created = repository.create(data);
+        await repository.save(created);
+
+        console.log(`Created ${entityType} of key ${entityKey}`);
+    });
+})();
+```
+
 ### Examples - Prisma
+
+```ts
+import FixtureGenerator from "db-fixture-generator";
+import {PrismaClient} from "@prisma/client";
+
+(async () => {
+
+    const prisma = new PrismaClient();
+    
+    const fixtures = await FixtureGenerator.fromFiles('./fixtures/**.yaml', {
+        formatRelationship: (entityType, entityData) => {
+            return {
+                connect: {
+                    id: entityData.id
+                }
+            }
+        }
+    });
+
+    await fixtures.create(async (entityType, entityKey, data) => {
+        await prisma[entityType].create(data);
+    });
+})();
+```
