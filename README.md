@@ -13,9 +13,9 @@ A database and framework agnostic fixture generator for NodeJS
 Create a file such as seed.ts
 
 ```ts
-(() => {
+(async () => {
     const options = {};
-    const fixtures = FixtureGenerator.fromFiles('./fixtures/**.yaml', options);
+    const fixtures = await FixtureGenerator.fromFiles('./fixtures/**.yaml', options);
     
     await fixtures.create(async (entityType, data) => {
         // persist data here
