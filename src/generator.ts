@@ -28,6 +28,8 @@ export default class FixtureGenerator {
             const entities = [];
             await this.create((entityType, entityData) => {
                 entities.push(entityData);
+            }).catch((err) => {
+                reject(err);
             })
             resolve(entities);
         })
@@ -81,9 +83,6 @@ export default class FixtureGenerator {
 
     getReferenceValue(key: string) {
         const ref = this.graph.getNodeData(key);
-        if (!ref) {
-            throw new Error(`Unable to find entity with key ${key}`);
-        }
         return ref.toJSON();
     }
 
