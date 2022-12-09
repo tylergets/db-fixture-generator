@@ -6,9 +6,9 @@ export default class Entity {
     key: string;
     private generator: FixtureGenerator;
     private fields: Record<string, any>;
-    variables: Record<string, any>;
+    variables: Record<string, any> = {};
 
-    constructor(generator: FixtureGenerator, key: string, fields: Record<string, any>, variables: Record<string, any>) {
+    constructor(generator: FixtureGenerator, key: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
         this.generator = generator;
         this.key = key;
         this.variables = variables;

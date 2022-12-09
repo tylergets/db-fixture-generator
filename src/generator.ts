@@ -6,7 +6,7 @@ import {DepGraph} from "dependency-graph";
 export interface FixtureData {
     key: string;
     type: string;
-    times?: number;
+    repeat?: number;
     fields: Record<string, any>;
 }
 
@@ -23,21 +23,36 @@ export default class FixtureGenerator {
         this.options = options;
     }
 
+    async all(): Promise<any[]> {
+        return new Promise<any[]>(async (resolve, reject) => {
+            const entities = [];
+            await this.create((entityType, entityData) => {
+                entities.push(entityData);
+            })
+            resolve(entities);
+        })
+    }
+
     async create(cb: (entityType: string, entityData: Record<string, any>) => void): Promise<void> {
 
         let entities = [];
 
-        for (let i = 0; i < this.fixtures.length; i++){
-            const fixture = this.fixtures[i];
+        for (const fixture of this.fixtures) {
 
-            let entity = new Entity(this, fixture.key, fixture.fields, {
-                i,
-            });
+            fixture.repeat ??= 1;
 
-            const key = fixture.key;
+            for (let r = 0; r < fixture.repeat; r++) {
+                let key = fixture.key;
 
-            this.graph.addNode(key, entity);
-            entities.push([key, entity]);
+                if (fixture.repeat > 1) {
+                    key = `${key}${r + 1}`;
+                }
+
+                let entity = new Entity(this, key, fixture.fields);
+
+                this.graph.addNode(key, entity);
+                entities.push([key, entity]);
+            }
         }
 
         for (const [key, entity] of entities) {
