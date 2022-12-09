@@ -53,7 +53,7 @@ export default class Entity {
     protected getHelpers() {
         return {
             id: () => {
-                return parseInt(this.variables.i + 1);
+                return parseInt(this.variables.i);
             }
         }
     }

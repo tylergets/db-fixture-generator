@@ -5,11 +5,7 @@ test('Can generate fixtures from YAML', async t => {
 
     const generator = await FixtureGenerator.fromFiles('tests/fixtures/blog/**.yaml');
 
-    const entities: any[] = [];
-
-    await generator.create((entityType, entityData) => {
-        entities.push(entityData);
-    })
+    const entities: any[] = await generator.all();
 
     const tyler = entities.find((e) => e.name === 'Tyler Getsay');
     const post = entities.find((e) => e.title === 'Post Title');

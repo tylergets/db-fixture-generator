@@ -13,11 +13,7 @@ test('Can generate a basic fixture', async t => {
         }
     ])
 
-    const entities: any[] = [];
-
-    await generator.create((entityType, entityData) => {
-        entities.push(entityData);
-    })
+    const entities: any[] = await generator.all();
 
     t.is(entities.length, 1);
     t.is(entities[0].id, 1);
@@ -36,11 +32,7 @@ test('Can generate a fixture with a unique ID', async t => {
         }
     ])
 
-    const entities: any[] = [];
-
-    await generator.create((entityType, entityData) => {
-        entities.push(entityData);
-    })
+    const entities: any[] = await generator.all();
 
     t.is(entities.length, 1);
     t.is(entities[0].id, '1');

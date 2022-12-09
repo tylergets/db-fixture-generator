@@ -5,14 +5,10 @@ test.serial('Entities are created in the proper order according to their relatio
 
     const generator = await FixtureGenerator.fromFiles('tests/fixtures/graph_test/**.yaml');
 
-    const entities: any[] = [];
-
-    await generator.create((entityType, entityData) => {
-        entities.push(entityData);
-    })
+    const entities: any[] = await generator.all();
 
     t.is(entities.length, 4);
-    
+
     t.is(entities[0].__type, 'User');
     t.is(entities[0].__key, 'poster');
     t.is(entities[1].__type, 'Post');

@@ -48,7 +48,9 @@ export default class FixtureGenerator {
                     key = `${key}${r + 1}`;
                 }
 
-                let entity = new Entity(this, key, fixture.fields);
+                let entity = new Entity(this, key, fixture.fields, {
+                    r: r+1,
+                });
 
                 this.graph.addNode(key, entity);
                 entities.push([key, entity]);
@@ -64,7 +66,7 @@ export default class FixtureGenerator {
         for (let i = 0; i < this.graph.overallOrder().length; i++){
             const name = this.graph.overallOrder()[i];
             const entity = this.graph.getNodeData(name);
-            entity.variables.i = i;
+            entity.variables.i = i + 1;
             cb(name, entity.toJSON());
         }
     }

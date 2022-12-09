@@ -12,11 +12,7 @@ test('Can generate fixtures compatible with TypeORM', async t => {
         }
     });
 
-    const entities = [];
-
-    await generator.create((entityType, entityData) => {
-        entities.push(entityData);
-    })
+    const entities = await generator.all();
 
     t.is(entities.length, 4);
 
