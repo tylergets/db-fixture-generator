@@ -5,10 +5,10 @@ A database and framework-agnostic fixture generator for NodeJS
 This project is not yet stable, do not use it in production.
 
 ## TODO
- * Solve Dependency Graph
- * Load Relationships
  * Handle Arrays
  * Settle internal api
+ * Ability to call methods (sync/async)
+ * Basic math operations in output
 
 ## Features
 

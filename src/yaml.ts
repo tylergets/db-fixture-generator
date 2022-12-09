@@ -38,10 +38,11 @@ export class YamlParser {
 
     private parseFixtureAsYaml(content: string): FixtureData[] {
         const entities: FixtureData[] = [];
-        for (const [key, data] of Object.entries(YAML.parse(content).entities)) {
+        for (const [key, data] of (Object.entries(YAML.parse(content).entities) as any)) {
             entities.push({
                 key,
                 fields: data,
+                repeat: data.__repeat,
                 type: key,
             })
         }

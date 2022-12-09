@@ -50,6 +50,7 @@ export default class FixtureGenerator {
 
                 let entity = new Entity(this, key, fixture.fields, {
                     r: r+1,
+                    rt: fixture.repeat,
                 });
 
                 this.graph.addNode(key, entity);
