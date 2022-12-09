@@ -1,7 +1,7 @@
 import {FixtureGeneratorOptions} from "./options";
-import Formatter from "./formatter";
-import fg from "fast-glob";
+import Entity from "./entity";
 import {YamlParser} from "./yaml";
+import {DepGraph} from "dependency-graph";
 
 export interface FixtureData {
     key: string;
@@ -13,9 +13,10 @@ export interface FixtureData {
 export default class FixtureGenerator {
 
     private fixtures: FixtureData[];
-    private options: FixtureGeneratorOptions = {};
 
-    private references: Record<string, string> = {};
+    options: FixtureGeneratorOptions = {};
+
+    graph = new DepGraph<Entity>();
 
     constructor(fixtures: FixtureData[], options: FixtureGeneratorOptions = {}) {
         this.fixtures = fixtures;
@@ -24,31 +25,47 @@ export default class FixtureGenerator {
 
     async create(cb: (entityType: string, entityData: Record<string, any>) => void): Promise<void> {
 
-        const entities = [];
+
+        let entities = [];
 
         for (let i = 0; i < this.fixtures.length; i++){
             const fixture = this.fixtures[i];
-            let entity = new Formatter(fixture.fields, {
+
+            let entity = new Entity(this, fixture.key, fixture.fields, {
                 i,
             });
 
-            const data = entity.toJSON();
-            data.__key = fixture.type;
-            data.__dependencies = await entity.getDependencies();
+            const key = fixture.key;
 
-            entities.push(data);
+            this.graph.addNode(key, entity);
+            entities.push([key, entity]);
         }
 
-        // TODO Determine Order Of Fixtures using Dependency Graph
+        for (const [key, entity] of entities) {
+            for (const dep of await entity.getDependencies()) {
+                this.graph.addDependency(key, dep);
+            }
+        }
 
-        for (const entity of entities) {
-            cb(entity.type, entity);
+        for (let i = 0; i < this.graph.overallOrder().length; i++){
+            const name = this.graph.overallOrder()[i];
+            const entity = this.graph.getNodeData(name);
+            entity.variables.i = i;
+            cb(name, entity.toJSON());
         }
     }
 
-    static async fromFiles(name: string): Promise<FixtureGenerator> {
-        console.log('pattern: ' + name);
+    static async fromFiles(name: string, options: FixtureGeneratorOptions = {}): Promise<FixtureGenerator> {
         const parser = new YamlParser(name);
-        return new FixtureGenerator(await parser.fixtures());
+        return new FixtureGenerator(await parser.fixtures(), options);
     }
+
+    getReferenceValue(key: string) {
+        const ref = this.graph.getNodeData(key);
+        if (!ref) {
+            throw new Error(`Unable to find entity with key ${key}`);
+        }
+        return ref.toJSON();
+    }
+
 }

@@ -1,9 +1,9 @@
 import test from 'ava'
 import FixtureGenerator from "../src";
 
-test.only('Can generate fixtures from YAML', async t => {
+test('Can generate fixtures from YAML', async t => {
 
-    const generator = await FixtureGenerator.fromFiles('./fixtures/blog/**.yaml');
+    const generator = await FixtureGenerator.fromFiles('tests/fixtures/blog/**.yaml');
 
     const entities: any[] = [];
 
@@ -11,13 +11,11 @@ test.only('Can generate fixtures from YAML', async t => {
         entities.push(entityData);
     })
 
-    console.log(entities);
+    const tyler = entities.find((e) => e.name === 'Tyler Getsay');
+    const post = entities.find((e) => e.title === 'Post Title');
 
+    t.truthy(tyler);
     t.is(entities.length, 4);
-    t.is(entities[1].id, '2');
-    t.is(entities[1].name, 'Tyler Getsay');
-    t.is(entities[3].user, {
-        id: 1
-    });
+    t.is(post.user.id, '1')
 
 })

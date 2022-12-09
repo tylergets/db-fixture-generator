@@ -13,11 +13,7 @@ export class YamlParser {
     }
 
     protected files() {
-        return fg(['tests/fixtures/blog/**.yaml']);
-    }
-
-    protected contents() {
-
+        return fg([this.pattern]);
     }
 
     async fixtures(): Promise<FixtureData[]> {

@@ -1,16 +1,21 @@
 import {render} from "mustache";
 import { faker } from "@faker-js/faker";
+import FixtureGenerator from "./generator";
 
-export default class Formatter {
+export default class Entity {
+    key: string;
+    private generator: FixtureGenerator;
     private fields: Record<string, any>;
-    private variables: Record<string, any>;
+    variables: Record<string, any>;
 
-    constructor(fields: Record<string, any>, variables: Record<string, any>) {
+    constructor(generator: FixtureGenerator, key: string, fields: Record<string, any>, variables: Record<string, any>) {
+        this.generator = generator;
+        this.key = key;
         this.variables = variables;
         this.fields = fields;
     }
 
-    getFieldValue(key: string) {
+    protected getFieldValue(key: string) {
         let fieldValue = this.fields[key];
 
         if (typeof fieldValue === 'number') {
@@ -18,7 +23,11 @@ export default class Formatter {
         }
 
         if (typeof fieldValue === 'string' && fieldValue.startsWith("@")) {
-            return '__LOAD_RELATIONSHIP:' + fieldValue;
+            let refValue = this.generator.getReferenceValue(fieldValue.substring(1));
+            if (this.generator.options.formatRelationship) {
+                refValue = this.generator.options.formatRelationship('unknown', refValue);
+            }
+            return refValue;
         }
 
         return render(fieldValue.toString(), {
@@ -41,7 +50,7 @@ export default class Formatter {
         })
     }
 
-    getHelpers() {
+    protected getHelpers() {
         return {
             id: () => {
                 return parseInt(this.variables.i + 1);
@@ -55,6 +64,8 @@ export default class Formatter {
         for (const [key, value] of Object.entries(this.fields)) {
             output[key] = this.getFieldValue(key);
         }
+
+        output['__key'] = 'test'
 
         return output;
     }
