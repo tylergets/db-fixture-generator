@@ -65,7 +65,7 @@ export default class Entity {
             output[key] = this.getFieldValue(key);
         }
 
-        output['__key'] = 'test'
+        output['__key'] = this.key;
 
         return output;
     }

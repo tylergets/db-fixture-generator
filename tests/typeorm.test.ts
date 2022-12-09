@@ -20,9 +20,10 @@ test('Can generate fixtures compatible with TypeORM', async t => {
 
     t.is(entities.length, 4);
 
-    const tyler = entities.find((e) => e.name === 'Tyler Getsay');
-
-    t.truthy(tyler);
-    t.is(tyler.id, '1');
+    const comment = entities.find((e) => e.__key === 'comment');
+    
+    t.truthy(comment);
+    t.is(comment.post.id, '2')
+    t.is(comment.post.typeorm, true)
 
 })
