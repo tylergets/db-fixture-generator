@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "repository": "https://github.com/tylergets/db-fixture-generator",
   "scripts": {
     "test": "ava",
     "coverage": "c8 ava",
