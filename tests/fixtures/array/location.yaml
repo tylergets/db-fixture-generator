@@ -1,0 +1,8 @@
+entities:
+  location:
+    id: '{{id}}'
+    name: 'Location'
+    featureFlags:
+      - flagA
+      - flagB
+      - flagC

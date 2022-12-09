@@ -15,10 +15,17 @@ export default class Entity {
         this.fields = fields;
     }
 
-    protected getFieldValue(key: string) {
-        let fieldValue = this.fields[key];
+    protected parseFieldValue(fieldValue: string) {
+
+        if (Array.isArray(fieldValue)) {
+            return fieldValue.map((v) => this.parseFieldValue(v));
+        }
 
         if (typeof fieldValue === 'number') {
+            return fieldValue;
+        }
+
+        if (typeof fieldValue === 'boolean') {
             return fieldValue;
         }
 
@@ -62,7 +69,8 @@ export default class Entity {
         const output: any = {};
 
         for (const [key, value] of Object.entries(this.fields)) {
-            output[key] = this.getFieldValue(key);
+            let fieldValue = this.fields[key];
+            output[key] = this.parseFieldValue(fieldValue);
         }
 
         output['__key'] = this.key;
