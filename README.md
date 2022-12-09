@@ -11,9 +11,11 @@ This project is not yet stable, do not use it in production.
 
 ## Features
 
+* Database agnostic -- Use any ORM you would like.
 * Solves your fixtures dependency tree, creating entities in order as needed.
+* 100% Test Coverage
+* Supports YAML fixtures
 * Supports CommonJS + ESM
-* Supports YAML + JSON for fixtures
 
 ## Usage
 
