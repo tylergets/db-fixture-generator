@@ -1,3 +1,3 @@
-import FixtureGenerator from "./generator";
+import FixtureGenerator from "./generator.js";
 
 export {FixtureGenerator};

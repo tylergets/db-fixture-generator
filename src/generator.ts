@@ -1,6 +1,6 @@
-import {FixtureGeneratorOptions} from "./options";
-import Entity from "./entity";
-import {YamlParser} from "./yaml";
+import {FixtureGeneratorOptions} from "./options.js";
+import Entity from "./entity.js";
+import {YamlParser} from "./yaml.js";
 import {DepGraph} from "dependency-graph";
 
 export interface FixtureData {

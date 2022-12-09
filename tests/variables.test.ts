@@ -1,5 +1,5 @@
 import test from 'ava'
-import {FixtureGenerator} from "../src";
+import {FixtureGenerator} from "../src/index.js";
 import {faker} from "@faker-js/faker";
 
 test('Can use global variables', async t => {

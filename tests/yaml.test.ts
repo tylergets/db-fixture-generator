@@ -1,5 +1,5 @@
 import test from 'ava'
-import {FixtureGenerator} from "../src";
+import {FixtureGenerator} from "../src/index.js";
 
 test('Can generate fixtures from YAML', async t => {
 

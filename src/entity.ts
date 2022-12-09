@@ -1,12 +1,13 @@
-import {render} from "mustache";
+import Mustache from "mustache";
 import { faker } from "@faker-js/faker";
 import FixtureGenerator from "./generator";
 
 export default class Entity {
     key: string;
-    private generator: FixtureGenerator;
-    private fields: Record<string, any>;
     variables: Record<string, any> = {};
+
+    private generator: FixtureGenerator;
+    private readonly fields: Record<string, any>;
 
     constructor(generator: FixtureGenerator, key: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
         this.generator = generator;
@@ -37,7 +38,7 @@ export default class Entity {
             return refValue;
         }
 
-        return render(fieldValue.toString(), {
+        return Mustache.render(fieldValue.toString(), {
             ...this.variables,
             ...this.generator.options.variables ?? {},
             ...this.getHelpers(),

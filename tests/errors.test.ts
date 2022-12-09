@@ -1,5 +1,5 @@
 import test from 'ava'
-import {FixtureGenerator} from "../src";
+import {FixtureGenerator} from "../src/index.js";
 
 test('Throws an error with undefined relationship', async t => {
     const generator = new FixtureGenerator([

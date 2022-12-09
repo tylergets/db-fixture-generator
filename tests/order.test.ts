@@ -1,5 +1,5 @@
 import test from 'ava'
-import {FixtureGenerator} from "../src";
+import {FixtureGenerator} from "../src/index.js";
 
 test.serial('Entities are created in the proper order according to their relationships', async t => {
 
