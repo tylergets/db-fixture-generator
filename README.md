@@ -17,7 +17,7 @@ Create a file such as seed.ts
     const options = {};
     const fixtures = FixtureGenerator.fromFiles('./fixtures/**.yaml', options);
     
-    fixtures.create((entityType, data) => {
+    await fixtures.create(async (entityType, data) => {
         // persist data here
     });
 })();
