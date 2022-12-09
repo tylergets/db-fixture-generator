@@ -1,4 +1,4 @@
-# db-fixtures
+# db-fixture-generator
 
 A database and framework agnostic fixture generator for NodeJS
 

@@ -1,5 +1,5 @@
 {
-  "name": "db-fixtures",
+  "name": "db-fixture-generator",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
