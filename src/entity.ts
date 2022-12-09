@@ -39,6 +39,7 @@ export default class Entity {
 
         return render(fieldValue.toString(), {
             ...this.variables,
+            ...this.generator.options.variables ?? {},
             ...this.getHelpers(),
             ...faker,
         });

@@ -13,6 +13,9 @@ This project is not yet stable, do not use it in production.
 
 * Database agnostic -- Use any ORM you would like.
 * Solves your fixtures dependency tree, creating entities in order as needed.
+* Ability to generate thousands of models quickly
+* Support for Mustache Templates
+* Support for FakerJS values
 * 100% Test Coverage
 * Supports YAML fixtures
 * Supports CommonJS + ESM
@@ -92,3 +95,6 @@ import {PrismaClient} from "@prisma/client";
     });
 })();
 ```
+
+### Alternatives
+ * https://github.com/RobinCK/typeorm-fixtures
