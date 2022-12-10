@@ -131,3 +131,5 @@ out
 # sources
 src/
 tests/
+.idea/
+.github/
