@@ -1,0 +1,8 @@
+entities:
+  tenant:
+    __type: 'Tenant'
+    id: '{{uuid}}'
+  location:
+    __type: 'Location'
+    id: '{{uuid}}'
+    tenant: '@tenant'

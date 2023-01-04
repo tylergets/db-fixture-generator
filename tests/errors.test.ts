@@ -1,7 +1,7 @@
 import test from 'ava'
 import {FixtureGenerator} from "../src";
 
-test('Throws an error with undefined relationship', async t => {
+test('Throws an error with undefined uuid', async t => {
     const generator = new FixtureGenerator([
         {
             type: 'error',

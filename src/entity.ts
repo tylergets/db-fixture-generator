@@ -11,6 +11,8 @@ export default class Entity {
     private generator: FixtureGenerator;
     private readonly fields: Record<string, any>;
 
+    private _resolvedData: any;
+
     constructor(generator: FixtureGenerator, key: string, type: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
         this.generator = generator;
         this.key = key;
@@ -89,15 +91,18 @@ export default class Entity {
     }
 
     toJSON() {
-        const output: any = {};
+        if (!this._resolvedData) {
+            this._resolvedData = {};
+            
+            for (const [key, value] of Object.entries(this.fields)) {
+                let fieldValue = this.fields[key];
+                this._resolvedData[key] = this.parseFieldValue(fieldValue);
+            }
 
-        for (const [key, value] of Object.entries(this.fields)) {
-            let fieldValue = this.fields[key];
-            output[key] = this.parseFieldValue(fieldValue);
+            this._resolvedData['__key'] = this.key;
         }
 
-        output['__key'] = this.key;
+        return this._resolvedData;
 
-        return output;
     }
 };

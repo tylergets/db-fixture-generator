@@ -88,6 +88,7 @@ export default class FixtureGenerator {
         return new FixtureGenerator(await parser.fixtures(), options);
     }
 
+    // This is broken as it calls to JSON instead of getting the previous value, maybe cache toJSON?
     getReferenceValue(key: string) {
         const ref = this.graph.getNodeData(key);
         return ref.toJSON();
