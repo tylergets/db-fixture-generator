@@ -72,6 +72,7 @@ export default class Entity {
 
     protected getHelpers() {
         return {
+            ...this.generator.options.helpers ?? {},
             id: () => {
                 return parseInt(this.variables.i);
             }
@@ -93,7 +94,7 @@ export default class Entity {
     toJSON() {
         if (!this._resolvedData) {
             this._resolvedData = {};
-            
+
             for (const [key, value] of Object.entries(this.fields)) {
                 let fieldValue = this.fields[key];
                 this._resolvedData[key] = this.parseFieldValue(fieldValue);
