@@ -77,6 +77,12 @@ export default class Entity {
     protected getHelpers() {
         return {
             ...this.generator.options.helpers ?? {},
+            key: () => {
+                return this.getKey();
+            },
+            type: () => {
+                return this.getType();
+            },
             id: () => {
                 return parseInt(this.variables.i);
             }

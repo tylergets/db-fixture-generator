@@ -16,3 +16,23 @@ test('Entities from YAML are created with the proper type, key, and ID', async t
 
     t.is(output[0].entityData.id, '1');
 });
+
+test('Entity can reference its own key', async t => {
+
+    const generator = new FixtureGenerator([{
+        key: 'ENTITY_KEY',
+        type: 'ENTITY_TYPE',
+        fields: {
+            i: '{{i}}',
+            myKey: '{{key}}',
+            myType: '{{type}}'
+        }
+    }]);
+
+    const output = await generator.all();
+
+    t.is(output.length, 1);
+    t.is(output[0].i, '1');
+    t.is(output[0].myKey, 'ENTITY_KEY');
+    t.is(output[0].myType, 'ENTITY_TYPE');
+});
