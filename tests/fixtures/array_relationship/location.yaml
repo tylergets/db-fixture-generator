@@ -1,5 +1,6 @@
 entities:
   location:
+    __type: 'Location'
     id: '{{id}}'
     name: 'Location'
     children:
@@ -7,4 +8,5 @@ entities:
       - '@child2'
   child:
     __repeat: 10
+    __type: 'Location'
     id: '{{id}}'

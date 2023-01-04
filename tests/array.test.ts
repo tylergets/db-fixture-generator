@@ -1,7 +1,7 @@
 import test from 'ava'
 import {FixtureGenerator} from "../src";
 
-test.serial('Entities can have array values', async t => {
+test('Entities can have array values', async t => {
 
     const generator = await FixtureGenerator.fromFiles('tests/fixtures/array/**.yaml');
 
@@ -10,7 +10,7 @@ test.serial('Entities can have array values', async t => {
     t.truthy(Array.isArray(entities[0].featureFlags));
 })
 
-test.serial('Entities can have array values with relationships', async t => {
+test('Entities can have array values with relationships', async t => {
 
     const generator = new FixtureGenerator([
         {

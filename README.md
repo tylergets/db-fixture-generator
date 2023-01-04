@@ -33,7 +33,7 @@ import {FixtureGenerator} from "db-fixture-generator";
     const options = {};
     const fixtures = await FixtureGenerator.fromFiles('./fixtures/**.yaml', options);
 
-    await fixtures.create(async (entityType, data) => {
+    await fixtures.create(async (entityKey, entityType, entityData) => {
         // persist data here
     });
 })();
@@ -61,9 +61,9 @@ import {FixtureGenerator} from "db-fixture-generator";
         }
     });
 
-    await fixtures.create(async (entityType, data) => {
+    await fixtures.create(async (entityKey, entityType, entityData) => {
         const repository = dataSource.getRepository(entityType);
-        const created = repository.create(data);
+        const created = repository.create(entityData);
         await repository.save(created);
 
         console.log(`Created ${entityType}`);
@@ -91,8 +91,8 @@ import {PrismaClient} from "@prisma/client";
         }
     });
 
-    await fixtures.create(async (entityType, entityKey, data) => {
-        await prisma[entityType].create(data);
+    await fixtures.create(async (entityKey, entityType, entityData) => {
+        await prisma[entityType].create(entityData);
     });
 })();
 ```

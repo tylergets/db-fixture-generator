@@ -26,7 +26,7 @@ export default class FixtureGenerator {
     async all(): Promise<any[]> {
         return new Promise<any[]>(async (resolve, reject) => {
             const entities = [];
-            await this.create((entityType, entityData) => {
+            await this.create((entityKey, entityType, entityData) => {
                 entities.push(entityData);
             }).catch((err) => {
                 reject(err);
@@ -35,7 +35,7 @@ export default class FixtureGenerator {
         })
     }
 
-    async create(cb: (entityType: string, entityData: Record<string, any>) => void): Promise<void> {
+    async create(cb: (entityKey: string, entityType: string, entityData: Record<string, any>) => void): Promise<void> {
 
         let entities = [];
 
@@ -44,13 +44,18 @@ export default class FixtureGenerator {
             fixture.repeat ??= 1;
 
             for (let r = 0; r < fixture.repeat; r++) {
+                const type = fixture.type;
                 let key = fixture.key;
 
                 if (fixture.repeat > 1) {
                     key = `${key}${r + 1}`;
                 }
 
-                let entity = new Entity(this, key, fixture.fields, {
+                if (!type) {
+                    throw new Error("No type found on fixture");
+                }
+
+                let entity = new Entity(this, key, type, fixture.fields, {
                     r: r+1,
                     rt: fixture.repeat,
                 });
@@ -68,11 +73,13 @@ export default class FixtureGenerator {
         }
 
         for (let i = 0; i < this.graph.overallOrder().length; i++){
-            const name = this.graph.overallOrder()[i];
-            const entity = this.graph.getNodeData(name);
+            const entityKey = this.graph.overallOrder()[i];
+            const entity = this.graph.getNodeData(entityKey);
 
             entity.variables.i = i + 1;
-            await cb(name, entity.toJSON());
+            const entityData = entity.toJSON();
+            const entityType = entity.getType();
+            await cb(entityKey, entityType, entityData);
         }
     }
 

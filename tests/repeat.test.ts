@@ -1,7 +1,7 @@
 import test from 'ava'
 import {FixtureGenerator} from "../src";
 
-test.serial('Can create multiple entities', async t => {
+test('Can create multiple entities', async t => {
 
     const generator = new FixtureGenerator([
         {
@@ -29,7 +29,7 @@ test.serial('Can create multiple entities', async t => {
 
 })
 
-test.serial('Repeated entities can be referenced', async t => {
+test('Repeated entities can be referenced', async t => {
 
     const generator = await FixtureGenerator.fromFiles('tests/fixtures/array_relationship/**.yaml', {
         formatRelationship: (entityType, entityData) => {

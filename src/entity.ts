@@ -4,14 +4,17 @@ import FixtureGenerator from "./generator";
 
 export default class Entity {
     key: string;
+    type: string;
+
     variables: Record<string, any> = {};
 
     private generator: FixtureGenerator;
     private readonly fields: Record<string, any>;
 
-    constructor(generator: FixtureGenerator, key: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
+    constructor(generator: FixtureGenerator, key: string, type: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
         this.generator = generator;
         this.key = key;
+        this.type = type;
         this.variables = variables;
         this.fields = fields;
     }
@@ -71,6 +74,18 @@ export default class Entity {
                 return parseInt(this.variables.i);
             }
         }
+    }
+
+    getKey() {
+        return this.key;
+    }
+
+    getType() {
+        if (!this.type) {
+            console.log(this);
+            throw new Error("Missing type attribute on entity " + this.getKey());
+        }
+        return this.type;
     }
 
     toJSON() {
