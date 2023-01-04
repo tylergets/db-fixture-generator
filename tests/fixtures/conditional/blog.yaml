@@ -1,0 +1,22 @@
+entities:
+  commentor:
+    id: "{{id}}"
+    name: "{{ name.fullName }}"
+    email: "{{ internet.email }}"
+    __type: User
+  poster:
+    id: "{{id}}"
+    name: "Tyler Getsay"
+    __type: User
+  post:
+    id: "{{id}}"
+    title: 'Post Title'
+    user: "@poster"
+    __type: Post
+  comment:
+    id: "{{id}}"
+    body: 'This is a comment'
+    post: '@post'
+    user: '@commentor'
+    __type: Comment
+    __if: '{{hasComments}}'

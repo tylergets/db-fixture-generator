@@ -43,6 +43,7 @@ export class YamlParser {
                 key,
                 fields: data,
                 repeat: data.__repeat,
+                if: data.__if,
                 type: data.__type ?? key,
             })
         }

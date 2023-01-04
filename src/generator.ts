@@ -7,6 +7,7 @@ export interface FixtureData {
     key: string;
     type: string;
     repeat?: number;
+    if?: string | boolean | (() => boolean);
     fields: Record<string, any>;
 }
 
@@ -23,7 +24,18 @@ export default class FixtureGenerator {
         this.options = options;
     }
 
+    validate() {
+        // verify that no fixtures have the same key
+        const keys = this.fixtures.map((f) => f.key);
+        const uniqueKeys = [...new Set(keys)];
+        if (keys.length !== uniqueKeys.length) {
+            const duplicates = keys.filter((item, index) => keys.indexOf(item) !== index);
+            throw new Error(`Duplicate fixture keys found: ${duplicates.join(', ')}`);
+        }
+    }
+
     async all(): Promise<any[]> {
+
         return new Promise<any[]>(async (resolve, reject) => {
             const entities = [];
             await this.create((entityKey, entityType, entityData) => {
@@ -36,6 +48,7 @@ export default class FixtureGenerator {
     }
 
     async create(cb: (entityKey: string, entityType: string, entityData: Record<string, any>) => void): Promise<void> {
+        await this.validate();
 
         let entities = [];
 
@@ -51,17 +64,15 @@ export default class FixtureGenerator {
                     key = `${key}${r + 1}`;
                 }
 
-                if (!type) {
-                    throw new Error("No type found on fixture");
-                }
-
-                let entity = new Entity(this, key, type, fixture.fields, {
+                let entity = new Entity(this, key, type, fixture.if, fixture.fields, {
                     r: r+1,
                     rt: fixture.repeat,
                 });
 
-                this.graph.addNode(key, entity);
-                entities.push([key, entity]);
+                if (entity.passesConditional()) {
+                    this.graph.addNode(key, entity);
+                    entities.push([key, entity]);
+                }
             }
         }
 
@@ -88,7 +99,6 @@ export default class FixtureGenerator {
         return new FixtureGenerator(await parser.fixtures(), options);
     }
 
-    // This is broken as it calls to JSON instead of getting the previous value, maybe cache toJSON?
     getReferenceValue(key: string) {
         const ref = this.graph.getNodeData(key);
         return ref.toJSON();

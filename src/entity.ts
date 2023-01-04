@@ -2,9 +2,13 @@ import Mustache from "mustache";
 import { faker } from "@faker-js/faker";
 import FixtureGenerator from "./generator";
 
+type EntityConditional = undefined | string | boolean | (() => boolean);
+
 export default class Entity {
     key: string;
     type: string;
+
+    conditional?: EntityConditional;
 
     variables: Record<string, any> = {};
 
@@ -13,12 +17,27 @@ export default class Entity {
 
     private _resolvedData: any;
 
-    constructor(generator: FixtureGenerator, key: string, type: string, fields: Record<string, any>, variables: Record<string, any> = {}) {
+    constructor(generator: FixtureGenerator, key: string, type: string, conditional: EntityConditional, fields: Record<string, any>, variables: Record<string, any> = {}) {
         this.generator = generator;
         this.key = key;
         this.type = type;
+        this.conditional = conditional;
         this.variables = variables;
         this.fields = fields;
+    }
+
+    passesConditional() {
+        if (this.conditional !== undefined) {
+            if (typeof this.conditional === 'boolean') {
+                return this.conditional;
+            } else if (typeof this.conditional === 'string') {
+                const parsed = this.parseFieldValue(this.conditional);
+                return parsed === 'true';
+            } else {
+                return this.conditional();
+            }
+        }
+        return true;
     }
 
     protected parseFieldValue(fieldValue: string) {
@@ -92,12 +111,7 @@ export default class Entity {
     getKey() {
         return this.key;
     }
-
     getType() {
-        if (!this.type) {
-            console.log(this);
-            throw new Error("Missing type attribute on entity " + this.getKey());
-        }
         return this.type;
     }
 
