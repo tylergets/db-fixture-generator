@@ -43,6 +43,10 @@ export default class Entity {
             return refValue;
         }
 
+        if (typeof fieldValue === 'object') {
+            return fieldValue;
+        }
+
         return Mustache.render(fieldValue.toString(), {
             ...this.variables,
             ...this.generator.options.variables ?? {},
