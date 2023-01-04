@@ -72,7 +72,7 @@ export default class FixtureGenerator {
             const entity = this.graph.getNodeData(name);
 
             entity.variables.i = i + 1;
-            cb(name, entity.toJSON());
+            await cb(name, entity.toJSON());
         }
     }
 
@@ -84,6 +84,10 @@ export default class FixtureGenerator {
     getReferenceValue(key: string) {
         const ref = this.graph.getNodeData(key);
         return ref.toJSON();
+    }
+
+    count() {
+        return this.fixtures.length;
     }
 
 }

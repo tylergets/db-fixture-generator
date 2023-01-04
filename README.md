@@ -8,6 +8,7 @@ This project is not yet stable, do not use it in production.
  * Settle internal api + yaml format
  * Ability to call methods (sync/async)
  * Basic math operations in output
+ * Ability to set seed for generation on faker
 
 ## Features
 
@@ -25,7 +26,7 @@ This project is not yet stable, do not use it in production.
 Create a file such as seed.ts
 
 ```ts
-import FixtureGenerator from "db-fixture-generator";
+import {FixtureGenerator} from "db-fixture-generator";
 
 (async () => {
 
@@ -46,7 +47,7 @@ ts-node seed.ts
 
 ### Examples - TypeORM
 ```ts
-import FixtureGenerator from "db-fixture-generator";
+import {FixtureGenerator} from "db-fixture-generator";
 
 (async () => {
 
@@ -60,12 +61,12 @@ import FixtureGenerator from "db-fixture-generator";
         }
     });
 
-    await fixtures.create(async (entityType, entityKey, data) => {
+    await fixtures.create(async (entityType, data) => {
         const repository = dataSource.getRepository(entityType);
         const created = repository.create(data);
         await repository.save(created);
 
-        console.log(`Created ${entityType} of key ${entityKey}`);
+        console.log(`Created ${entityType}`);
     });
 })();
 ```
@@ -73,7 +74,7 @@ import FixtureGenerator from "db-fixture-generator";
 ### Examples - Prisma
 
 ```ts
-import FixtureGenerator from "db-fixture-generator";
+import {FixtureGenerator} from "db-fixture-generator";
 import {PrismaClient} from "@prisma/client";
 
 (async () => {
