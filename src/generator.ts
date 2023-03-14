@@ -24,6 +24,10 @@ export default class FixtureGenerator {
         this.options = options;
     }
 
+    add(fixture: FixtureData) {
+        this.fixtures.push(fixture);
+    }
+
     validate() {
         // verify that no fixtures have the same key
         const keys = this.fixtures.map((f) => f.key);
